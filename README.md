@@ -3,8 +3,6 @@
 **Baking Shota** (@baking_shota1009) の公式ウェブサイトです。
 ジブリのような「魔女の森のパン屋さん」をコンセプトに、温かみのあるデザインと遊び心あふれるギミックを詰め込みました。
 
-![Project Banner](./materials/banner_preview.png)
-*(Note: You can replace this path with an actual screenshot if available)*
 
 ## ✨ 特徴 (Features)
 
@@ -80,3 +78,4 @@ cd baking-shota-website
 ## 📜 ライセンス
 
 Designed & Developed for Baking Shota.
+
