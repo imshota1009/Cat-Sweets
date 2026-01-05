@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baking Shota - 魔女の森のパン屋さん</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Kiwi+Maru:wght@300;500&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Zen Maru Gothic"', 'sans-serif'],
+                        serif: ['"Kiwi Maru"', 'serif'],
+                    },
+                    colors: {
+                        ghibli: {
+                            paper: '#FDFCF6',
+                            cream: '#FFFBEB',
+                            brown: '#8B5E3C',
+                            dark: '#5D4037',
+                            green: '#4A6741',
+                            red: '#C64F4F',
+                            bread: '#E6A863',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'bounce-ghibli': 'bounceGhibli 2s infinite',
+                        'steam': 'steam 3s ease-out infinite',
+                        'wobble': 'wobble 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        bounceGhibli: {
+                            '0%, 100%': { transform: 'translateY(0) scale(1)' },
+                            '50%': { transform: 'translateY(-10px) scale(0.98)' },
+                        },
+                        steam: {
+                            '0%': { transform: 'translateY(0) scale(1)', opacity: 0.6 },
+                            '100%': { transform: 'translateY(-20px) scale(1.5)', opacity: 0 },
+                        },
+                        wobble: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
+                    }
+                }
+            }
+        }
+
+    </script>
+    <style>
+        :root {
+            --bg-color: #FDFCF6;
+            --text-color: #5D4037;
+            --overlay-color: rgba(0, 0, 0, 0);
+            --lantern-opacity: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d4a373' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            color: var(--text-color);
+            transition: background-color 2s, color 2s;
+            overflow-x: hidden;
+            cursor: none;
+            /* Custom Soot Sprite Cursor */
+        }
+
+        /* Night Mode Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-color);
+            pointer-events: none;
+            z-index: 5;
+            transition: background 2s;
+        }
+
+        /* Lantern Glow (Active at Night) */
+        #lantern-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 160, 60, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9990;
+            opacity: var(--lantern-opacity);
+            transition: opacity 2s;
+            mix-blend-mode: screen;
+        }
+
+        /* Firefly (Night Gimmick) */
+        .firefly {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #FFD700;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99;
+            box-shadow: 0 0 8px #FFD700, 0 0 16px #FF8C00;
+            animation: fly 5s infinite ease-in-out alternate;
+            opacity: 0;
+        }
+
+        @keyframes fly {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--fx), var(--fy));
+                opacity: 0;
+            }
+        }
+
+        /* Night Mode Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-color);
+            pointer-events: none;
+            z-index: 5;
+            transition: background 2s;
+        }
+
+        /* Lantern Glow (Active at Night) */
+        #lantern-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 160, 60, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9990;
+            opacity: var(--lantern-opacity);
+            transition: opacity 2s;
+            mix-blend-mode: screen;
+        }
+
+        /* Firefly (Night Gimmick) */
+        .firefly {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #FFD700;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99;
+            box-shadow: 0 0 8px #FFD700, 0 0 16px #FF8C00;
+            animation: fly 5s infinite ease-in-out alternate;
+            opacity: 0;
+        }
+
+        @keyframes fly {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--fx), var(--fy));
+                opacity: 0;
+            }
+        }
+
+        /* Soot Sprite Cursor */
+        #cursor-follower {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            background: #2D2D2D;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+            filter: blur(0.5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Eyes */
+        #cursor-follower::before,
+        #cursor-follower::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 6px;
+        }
+
+        #cursor-follower::before {
+            left: 5px;
+        }
+
+        #cursor-follower::after {
+            right: 5px;
+        }
+
+        /* Little ones following */
+        .soot-sprite {
+            position: fixed;
+            background: #2D2D2D;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.8;
+            animation: scurry 1s forwards;
+            filter: blur(1px);
+        }
+
+        .soot-sprite::before,
+        .soot-sprite::after {
+            content: '';
+            width: 20%;
+            height: 20%;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 25%;
+        }
+
+        .soot-sprite::before {
+            left: 25%;
+        }
+
+        .soot-sprite::after {
+            right: 25%;
+        }
+
+
+
+        /* Konpeito (Star Candy) */
+        .konpeito {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            font-size: 20px;
+            animation: fall 1s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--dx), var(--dy)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Scroll Progress Cat */
+        #scroll-cat {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: #E6A863;
+            z-index: 9999;
+            transition: width 0.1s;
+        }
+
+        #scroll-cat::after {
+            content: '🐈';
+            position: absolute;
+            right: -10px;
+            top: -8px;
+            font-size: 20px;
+            transform: scaleX(-1);
+            /* Face right */
+        }
+
+        @keyframes scurry {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(0) translate(var(--mx), var(--my));
+                opacity: 0;
+            }
+        }
+
+        /* Paper Card Style */
+        .paper-card {
+            background: #FFF;
+            border-radius: 8px;
+            /* Rough edges simulated by simplicity */
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.07),
+                0 2px 4px rgba(0, 0, 0, 0.07),
+                0 4px 8px rgba(0, 0, 0, 0.07),
+                0 8px 16px rgba(0, 0, 0, 0.07),
+                0 16px 32px rgba(0, 0, 0, 0.07),
+                0 32px 64px rgba(0, 0, 0, 0.07);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Windy Leaves */
+        .leaf {
+            position: fixed;
+            top: -50px;
+            width: 20px;
+            height: 20px;
+            background: rgba(74, 103, 65, 0.6);
+            /* Greenish */
+            border-radius: 20px 0px;
+            pointer-events: none;
+            z-index: 1;
+            /* Behind content */
+            animation: fallLeaf linear forwards;
+        }
+
+        @keyframes fallLeaf {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(100vw, 100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Sunbeam Dust */
+        .dust-mote {
+            position: fixed;
+            background: rgba(255, 255, 230, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 2;
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+            animation: floatDust linear infinite;
+        }
+
+        @keyframes floatDust {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-100px) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        /* Interactive Elements: Jelly Bounce */
+        .jelly-hover:hover {
+            animation: jelly 0.5s;
+        }
+
+        @keyframes jelly {
+
+            0%,
+            100% {
+                transform: scale(1, 1);
+            }
+
+            25% {
+                transform: scale(0.9, 1.1);
+            }
+
+            50% {
+                transform: scale(1.1, 0.9);
+            }
+
+            75% {
+                transform: scale(0.95, 1.05);
+            }
+        }
+
+        /* Handwritten Font for English */
+        @font-face {
+            font-family: 'Handwritten';
+            src: url('https://fonts.gstatic.com/s/indieflower/v17/m8JVjfNVeKWVnh3QMuKkFcZVaUuH99GUDg.woff2') format('woff2');
+        }
+    </style>
+</head>
+
+<body class="relative min-h-screen">
+
+    <!-- Lantern Glow -->
+    <div id="lantern-glow"></div>
+    <!-- Cursor -->
+    <div id="cursor-follower"></div>
+    <!-- Scroll Cat -->
+    <div id="scroll-cat"></div>
+
+    <!-- Header -->
+    <header class="fixed w-full z-40 top-0 left-0 p-4 transition duration-300" id="header">
+        <div
+            class="max-w-6xl mx-auto flex justify-between items-center bg-white/90 backdrop-blur-sm rounded-full shadow-md py-3 px-8 paper-card">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-bread-slice text-ghibli-brown text-2xl animate-bounce-ghibli"></i>
+                <h1 class="font-serif font-bold text-xl text-ghibli-dark tracking-widest">Baking Shota</h1>
+            </div>
+            <nav class="hidden md:flex gap-6 font-sans text-sm font-bold text-ghibli-brown">
+                <a href="#about" class="hover:text-ghibli-red transition jelly-hover">店主について</a>
+                <a href="#gallery" class="hover:text-ghibli-red transition jelly-hover">お菓子の森</a>
+                <a href="#contact" class="hover:text-ghibli-red transition jelly-hover">お手紙</a>
+            </nav>
+            <a href="https://instagram.com/baking_shota1009" target="_blank"
+                class="bg-ghibli-brown text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-ghibli-red transition jelly-hover shadow-lg">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen pt-24 pb-12 flex flex-col items-center justify-center relative overflow-hidden">
+        <!-- Background Elements (Parallax Clouds) -->
+        <div class="absolute top-20 left-10 opacity-30 animate-float" style="animation-duration: 8s;">
+            <i class="fas fa-cloud text-6xl text-white"></i>
+        </div>
+        <div class="absolute top-40 right-20 opacity-40 animate-float" style="animation-duration: 12s;">
+            <i class="fas fa-cloud text-8xl text-white"></i>
+        </div>
+
+        <div class="max-w-4xl mx-auto text-center px-4 z-10">
+            <div class="relative inline-block mb-8">
+                <div class="absolute -top-10 -right-10 text-ghibli-bread animate-float">
+                    <i class="fas fa-star text-2xl"></i>
+                </div>
+                <h2 class="font-serif text-4xl md:text-6xl text-ghibli-dark leading-relaxed">
+                    しなやかに、<br>
+                    <span
+                        class="inline-block transform -rotate-2 bg-ghibli-green text-white px-4 py-1 mx-2 rounded-sm shadow-md">ねこ</span>の足取りで。
+                </h2>
+            </div>
+
+            <p
+                class="font-sans text-lg text-ghibli-brown mt-6 mb-12 max-w-2xl mx-auto leading-loose bg-white/60 p-6 rounded-xl shadow-sm backdrop-blur-sm">
+                ねこの手触りのような、やさしいお菓子とパン。<br>
+                魔女の森の奥深くで、こっそりと焼いています。<br>
+                湯気の向こうに、幸せな魔法を込めて。
+            </p>
+
+            <!-- Main Visual: Baking Collage -->
+            <div
+                class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto transform rotate-1 hover:rotate-0 transition duration-700">
+                <!-- Image 1 -->
+                <div
+                    class="paper-card p-2 transform rotate-2 hover:scale-105 transition duration-500 cursor-pointer jelly-hover">
+                    <div class="overflow-hidden rounded h-48 relative">
+                        <img src="./materials/myfavorite1.jpg" class="w-full h-full object-cover">
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-opacity-0 hover:text-opacity-100 transition duration-300 pointer-events-none">
+                            <i class="fas fa-steam text-4xl animate-steam"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Image 2 (Central) -->
+                <div
+                    class="paper-card p-2 transform -rotate-2 scale-110 z-10 hover:scale-115 transition duration-500 cursor-pointer jelly-hover">
+                    <div class="overflow-hidden rounded h-56 relative">
+                        <img src="./materials/myfavorite2.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent">
+                        </div>
+                        <!-- <span class="absolute bottom-2 right-2 text-white text-xs font-mono">My Favorite</span> -->
+                    </div>
+                </div>
+                <!-- Image 3 -->
+                <div
+                    class="paper-card p-2 transform rotate-1 md:mt-8 hover:scale-105 transition duration-500 cursor-pointer jelly-hover">
+                    <div class="overflow-hidden rounded h-48">
+                        <img src="./materials/myfavorite3.jpg" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="about" class="py-20 bg-white relative">
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none transform -translate-y-full">
+            <svg class="relative block w-full h-[50px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                    class="fill-[#FDFCF6]"></path>
+            </svg>
+        </div>
+
+        <div class="max-w-2xl mx-auto px-4 text-center">
+            <div
+                class="w-32 h-32 mx-auto rounded-full border-4 border-ghibli-bread overflow-hidden mb-6 paper-card jelly-hover">
+                <img src="./materials/icon.png" class="w-full h-full object-cover">
+            </div>
+
+            <h2 class="font-serif text-3xl font-bold mb-2 text-ghibli-dark">Baking Shota</h2>
+            <div
+                class="flex items-center justify-center gap-2 mb-6 text-ghibli-green font-bold bg-ghibli-paper inline-block px-4 py-1 rounded-full shadow-inner">
+                <span>@baking_shota1009</span>
+                <button onclick="navigator.clipboard.writeText('baking_shota1009'); alert('IDをコピーしました！')"
+                    class="hover:text-ghibli-brown transition">
+                    <i class="far fa-copy"></i>
+                </button>
+            </div>
+
+            <div
+                class="font-sans text-ghibli-dark bg-[#FFFBEB] p-8 rounded-2xl shadow-sm border border-[#F3E5AB] relative">
+                <!-- Decor tape -->
+                <div
+                    class="absolute -top-3 left-1/2 -translate-x-1/2 w-32 h-8 bg-[#E6D5B8] opacity-50 transform -rotate-1">
+                </div>
+
+                <p class="leading-loose mb-6">
+                    パンとお菓子の香りに包まれて。<br>
+                    ジブリのような温かい世界観を目指しています。<br>
+                    リクエストなどはDMでお待ちしています 🐈⸒⸒⸒⸒
+                </p>
+                <a href="#contact"
+                    class="text-xs text-ghibli-brown border-b border-ghibli-brown pb-1 hover:text-ghibli-red transition">
+                    作って欲しいお菓子の要望があればDMまでᨐฅ
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery (Instagram Feed) -->
+    <section id="gallery" class="py-20 pb-32">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="block text-ghibli-green font-bold tracking-widest text-sm mb-2">GALLERY</span>
+                <h2 class="font-serif text-4xl text-ghibli-dark">こんがり、焼き上がりました</h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Item 1 -->
+                <a href="https://instagram.com/baking_shota1009" target="_blank"
+                    class="block paper-card p-3 transform transition hover:-translate-y-2 hover:rotate-1">
+                    <div class="overflow-hidden rounded-md relative aspect-square group">
+                        <img src="./materials/picture1.jpg"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <i class="fas fa-cookie-bite text-white text-3xl animate-bounce"></i>
+                        </div>
+                    </div>
+                </a>
+                <!-- Item 2 -->
+                <a href="https://instagram.com/baking_shota1009" target="_blank"
+                    class="block paper-card p-3 transform transition hover:-translate-y-2 hover:-rotate-1">
+                    <div class="overflow-hidden rounded-md relative aspect-square group">
+                        <img src="./materials/picture2.jpg"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <i class="fas fa-bread-slice text-white text-3xl animate-bounce"></i>
+                        </div>
+                    </div>
+                </a>
+                <!-- Item 3 -->
+                <a href="https://instagram.com/baking_shota1009" target="_blank"
+                    class="block paper-card p-3 transform transition hover:-translate-y-2 hover:rotate-1">
+                    <div class="overflow-hidden rounded-md relative aspect-square group">
+                        <img src="./materials/picture3.jpg"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <i class="fas fa-heart text-white text-3xl animate-bounce"></i>
+                        </div>
+                    </div>
+                </a>
+                <!-- Item 4 -->
+                <a href="https://instagram.com/baking_shota1009" target="_blank"
+                    class="block paper-card p-3 transform transition hover:-translate-y-2 hover:-rotate-1">
+                    <div class="overflow-hidden rounded-md relative aspect-square group">
+                        <img src="./materials/picture4.jpg"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <i class="fas fa-birthday-cake text-white text-3xl animate-bounce"></i>
+                        </div>
+                    </div>
+                </a>
+                <!-- Item 5 -->
+                <a href="https://instagram.com/baking_shota1009" target="_blank"
+                    class="block paper-card p-3 transform transition hover:-translate-y-2 hover:rotate-1">
+                    <div class="overflow-hidden rounded-md relative aspect-square group">
+                        <img src="./materials/picture5.jpg"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <i class="fas fa-utensils text-white text-3xl animate-bounce"></i>
+                        </div>
+                    </div>
+                </a>
+                <!-- Item 6 -->
+                <a href="https://instagram.com/baking_shota1009" target="_blank"
+                    class="block paper-card p-3 transform transition hover:-translate-y-2 hover:-rotate-1">
+                    <div class="overflow-hidden rounded-md relative aspect-square group">
+                        <img src="./materials/picture6.jpg"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <i class="fas fa-mug-hot text-white text-3xl animate-bounce"></i>
+                        </div>
+                    </div>
+                </a>
+                <!-- Item 7 -->
+                <a href="https://instagram.com/baking_shota1009" target="_blank"
+                    class="block paper-card p-3 transform transition hover:-translate-y-2 hover:rotate-1">
+                    <div class="overflow-hidden rounded-md relative aspect-square group">
+                        <img src="./materials/picture7.jpg"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <i class="fas fa-star text-white text-3xl animate-bounce"></i>
+                        </div>
+                    </div>
+                </a>
+                <!-- Item 8 -->
+                <a href="https://instagram.com/baking_shota1009" target="_blank"
+                    class="block paper-card p-3 transform transition hover:-translate-y-2 hover:-rotate-1">
+                    <div class="overflow-hidden rounded-md relative aspect-square group">
+                        <img src="./materials/picture8.jpg"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <i class="fas fa-cat text-white text-3xl animate-bounce"></i>
+                        </div>
+                    </div>
+                </a>
+                <!-- Item 9 -->
+                <a href="https://instagram.com/baking_shota1009" target="_blank"
+                    class="block paper-card p-3 transform transition hover:-translate-y-2 hover:rotate-1">
+                    <div class="overflow-hidden rounded-md relative aspect-square group">
+                        <img src="./materials/picture9.jpg"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <i class="fas fa-heart text-white text-3xl animate-bounce"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="mt-16 text-center">
+                <a href="https://instagram.com/baking_shota1009" target="_blank"
+                    class="inline-block bg-ghibli-green text-white font-bold py-4 px-10 rounded-full shadow-lg hover:shadow-xl hover:bg-ghibli-dark transition transform hover:-translate-y-1 jelly-hover">
+                    <i class="fab fa-instagram mr-2"></i> もっと見る
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-ghibli-brown text-[#E6D5B8] py-8 text-center" id="contact">
+        <div class="max-w-2xl mx-auto px-4">
+            <h3 class="font-serif text-2xl mb-4">Contact</h3>
+            <p class="mb-6 font-sans text-sm">
+                お仕事のご依頼や、作ってほしいお菓子のリクエストは<br>
+                InstagramのDMまでお気軽にどうぞ。
+            </p>
+            <a href="https://instagram.com/baking_shota1009" target="_blank"
+                class="text-3xl hover:text-white transition inline-block jelly-hover">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <div class="mt-8 text-xs opacity-60">
+                &copy; 2026 Baking Shota. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ghibli Logic -->
+    <script>
+        const cursor = document.getElementById('cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // Move main cursor
+            cursor.style.left = `${x}px`;
+            cursor.style.top = `${y}px`;
+
+            // Move Lantern
+            const lantern = document.getElementById('lantern-glow');
+            if (lantern) {
+                lantern.style.left = `${x}px`;
+                lantern.style.top = `${y}px`;
+            }
+
+            // Randomly spawn soot sprites
+            if (Math.random() < 0.05) {
+                spawnSoot(x, y);
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            spawnKonpeito(e.clientX, e.clientY);
+        });
+
+        // Scroll Cat Logic
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            const cat = document.getElementById('scroll-cat');
+            if (cat) cat.style.width = scrollPercent + '%';
+        });
+
+        function spawnKonpeito(x, y) {
+            const colors = ['#FFD1DC', '#AEC6CF', '#FDFD96', '#B39EB5', '#FF6961'];
+            const shapes = ['★', '✦', '●'];
+
+            for (let i = 0; i < 8; i++) {
+                const k = document.createElement('div');
+                k.className = 'konpeito';
+                k.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                k.style.color = colors[Math.floor(Math.random() * colors.length)];
+                k.style.left = x + 'px';
+                k.style.top = y + 'px';
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 100 + 50;
+                k.style.setProperty('--dx', Math.cos(angle) * velocity + 'px');
+                k.style.setProperty('--dy', Math.sin(angle) * velocity + 100 + 'px');
+
+                document.body.appendChild(k);
+                setTimeout(() => k.remove(), 1000);
+            }
+        }
+
+        function spawnSoot(x, y) {
+            const soot = document.createElement('div');
+            soot.classList.add('soot-sprite');
+            const size = Math.random() * 10 + 5 + 'px';
+            soot.style.width = size;
+            soot.style.height = size;
+            soot.style.left = x + 'px';
+            soot.style.top = y + 'px';
+            const mx = (Math.random() - 0.5) * 100 + 'px';
+            const my = (Math.random() - 0.5) * 100 + 'px';
+            soot.style.setProperty('--mx', mx);
+            soot.style.setProperty('--my', my);
+            document.body.appendChild(soot);
+            setTimeout(() => soot.remove(), 1000);
+        }
+
+        // Jelly effect
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mousedown', () => { el.style.transform = "scale(0.9)"; });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = "scale(1.1)";
+                setTimeout(() => el.style.transform = "", 150);
+            });
+        });
+
+        // Time Manager
+        function checkTime() {
+            const hour = new Date().getHours();
+            const root = document.querySelector(':root');
+
+            // Day: 6-16, Sunset: 16-19, Night: 19-6
+            if (hour >= 6 && hour < 16) {
+                // Day
+                root.style.setProperty('--bg-color', '#FDFCF6');
+                root.style.setProperty('--overlay-color', 'rgba(0,0,0,0)');
+                root.style.setProperty('--lantern-opacity', '0');
+                setInterval(spawnDust, 500); // Dust only in day
+            } else if (hour >= 16 && hour < 19) {
+                // Sunset
+                root.style.setProperty('--bg-color', '#FFF3E0');
+                root.style.setProperty('--overlay-color', 'rgba(255, 100, 0, 0.1)');
+                root.style.setProperty('--lantern-opacity', '0.2');
+                setInterval(spawnDust, 800);
+            } else {
+                // Night
+                root.style.setProperty('--bg-color', '#1a1c29'); // Dark Ghibli Night Blue
+                root.style.setProperty('--text-color', '#E6D5B8');
+                root.style.setProperty('--overlay-color', 'rgba(0, 10, 30, 0.4)');
+                root.style.setProperty('--lantern-opacity', '1');
+                setInterval(spawnFirefly, 1000); // Fireflies at night
+            }
+        }
+
+        checkTime();
+
+        function spawnLeaf() {
+            const leaf = document.createElement('div');
+            leaf.classList.add('leaf');
+            leaf.style.left = Math.random() * 50 + 'vw';
+            leaf.style.animationDuration = Math.random() * 5 + 5 + 's';
+            const colors = ['rgba(74, 103, 65, 0.5)', 'rgba(139, 94, 60, 0.5)', 'rgba(230, 168, 99, 0.5)'];
+            leaf.style.background = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(leaf);
+            setTimeout(() => leaf.remove(), 10000);
+        }
+        setInterval(spawnLeaf, 3000);
+
+        function spawnDust() {
+            const h = new Date().getHours();
+            if (h >= 19 || h < 6) return; // Not at night
+            const dust = document.createElement('div');
+            dust.classList.add('dust-mote');
+            const size = Math.random() * 4 + 1 + 'px';
+            dust.style.width = size;
+            dust.style.height = size;
+            dust.style.left = Math.random() * 100 + 'vw';
+            dust.style.top = Math.random() * 100 + 'vh';
+            dust.style.animationDuration = Math.random() * 10 + 5 + 's';
+            document.body.appendChild(dust);
+            setTimeout(() => dust.remove(), 15000);
+        }
+
+        function spawnFirefly() {
+            const h = new Date().getHours();
+            if (h >= 6 && h < 19) return; // Only at night
+            const f = document.createElement('div');
+            f.classList.add('firefly');
+            f.style.left = Math.random() * 100 + 'vw';
+            f.style.top = Math.random() * 100 + 'vh';
+            const fx = (Math.random() - 0.5) * 200 + 'px';
+            const fy = (Math.random() - 0.5) * 200 + 'px';
+            f.style.setProperty('--fx', fx);
+            f.style.setProperty('--fy', fy);
+            document.body.appendChild(f);
+            setTimeout(() => f.remove(), 5000);
+        }
+    </script>
+
+    <!-- Ghibli Soot Sprite Logic -->
+    <script>
+        const cursor = document.getElementById('cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // Move main cursor
+            cursor.style.left = `${x}px`;
+            cursor.style.top = `${y}px`;
+
+            // Randomly spawn soot sprites
+            if (Math.random() < 0.05) {
+                spawnSoot(x, y);
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            spawnKonpeito(e.clientX, e.clientY);
+        });
+
+        // Scroll Cat Logic
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('scroll-cat').style.width = scrollPercent + '%';
+        });
+
+        function spawnKonpeito(x, y) {
+            const colors = ['#FFD1DC', '#AEC6CF', '#FDFD96', '#B39EB5', '#FF6961'];
+            const shapes = ['★', '✦', '●'];
+
+            for (let i = 0; i < 8; i++) {
+                const k = document.createElement('div');
+                k.className = 'konpeito';
+                k.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                k.style.color = colors[Math.floor(Math.random() * colors.length)];
+                k.style.left = x + 'px';
+                k.style.top = y + 'px';
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 100 + 50;
+                k.style.setProperty('--dx', Math.cos(angle) * velocity + 'px');
+                k.style.setProperty('--dy', Math.sin(angle) * velocity + 100 + 'px'); // +100 for gravity feel
+
+                document.body.appendChild(k);
+                setTimeout(() => k.remove(), 1000);
+            }
+        }
+
+        function spawnSoot(x, y) {
+            const soot = document.createElement('div');
+            soot.classList.add('soot-sprite');
+
+            // Random size and offset
+            const size = Math.random() * 10 + 5 + 'px';
+            soot.style.width = size;
+            soot.style.height = size;
+            soot.style.left = x + 'px';
+            soot.style.top = y + 'px';
+
+            // Random direction
+            const mx = (Math.random() - 0.5) * 100 + 'px';
+            const my = (Math.random() - 0.5) * 100 + 'px';
+            soot.style.setProperty('--mx', mx);
+            soot.style.setProperty('--my', my);
+
+            document.body.appendChild(soot);
+
+            // Cleanup
+            setTimeout(() => {
+                soot.remove();
+            }, 1000);
+        }
+
+        // Jelly effect on click for links
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.transform = "scale(0.9)";
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = "scale(1.1)";
+                setTimeout(() => el.style.transform = "", 150);
+            });
+        });
+        // Initial Spawns
+        setInterval(spawnLeaf, 3000);
+        setInterval(spawnDust, 500);
+
+        function spawnLeaf() {
+            const leaf = document.createElement('div');
+            leaf.classList.add('leaf');
+            leaf.style.left = Math.random() * 50 + 'vw'; // Start from left half
+            leaf.style.animationDuration = Math.random() * 5 + 5 + 's'; // 5-10s
+
+            // Random color variation (Green, Brown, Yellow)
+            const colors = ['rgba(74, 103, 65, 0.5)', 'rgba(139, 94, 60, 0.5)', 'rgba(230, 168, 99, 0.5)'];
+            leaf.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            document.body.appendChild(leaf);
+            setTimeout(() => leaf.remove(), 10000);
+        }
+
+        function spawnDust() {
+            const dust = document.createElement('div');
+            dust.classList.add('dust-mote');
+            const size = Math.random() * 4 + 1 + 'px';
+            dust.style.width = size;
+            dust.style.height = size;
+            dust.style.left = Math.random() * 100 + 'vw';
+            dust.style.top = Math.random() * 100 + 'vh';
+            dust.style.animationDuration = Math.random() * 10 + 5 + 's';
+
+            document.body.appendChild(dust);
+            setTimeout(() => dust.remove(), 15000);
+        }
+    </script>
+</body>
+
+</html>
