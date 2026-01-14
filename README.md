@@ -1,81 +1,92 @@
-# Baking Shota - 魔女の森のパン屋さん 🍞🌿
+# Baking Shota - Witch's Forest Bakery 🍞🌿
 
-**Baking Shota** (@baking_shota1009) の公式ウェブサイトです。
-ジブリのような「魔女の森のパン屋さん」をコンセプトに、温かみのあるデザインと遊び心あふれるギミックを詰め込みました。
+Welcome to the official website of **Baking Shota** (@baking_shota1009).
+Concept: "A Bakery in the Witch's Forest". We aimed for a Ghibli-esque atmosphere with warm textures, playful gimmicks, and Ghibli-inspired magic.
 
+![Project Banner](./materials/banner_preview.png)
+*(Note: You can replace this path with an actual screenshot if available)*
 
-## ✨ 特徴 (Features)
+---
 
-### 🎨 デザインコンセプト
-- **Ghibli-esque**: 水彩画のようなテクスチャ、紙の質感、丸みのあるフォント（Zen Maru Gothic & Kiwi Maru）を使用。
-- **Responsive**: PCでもスマホでも美しく表示されるレスポンシブデザイン。
+## ✨ Features
 
-### 🪄 7つの魔法 (Interactive Gimmicks)
+### 🎨 Design Concept
+- **Ghibli-esque**: Uses watercolor textures, paper-like materials, and rounded fonts (Zen Maru Gothic & Kiwi Maru).
+- **Responsive**: Beautifully displayed on both PC and smartphones.
 
-このサイトには、訪れる人を楽しませる隠し要素がたくさんあります。
+### 🪄 7 Magic Spells (Interactive Gimmicks)
 
-1.  **時間変化 (Time-Shift Atmosphere)** 🕰️
-    - ユーザーの現地時間に合わせて、サイトの雰囲気がリアルタイムに変化します。
-    - **昼 (6:00-16:00)**: 明るい日差しと木漏れ日の塵。
-    - **夕方 (16:00-19:00)**: ノスタルジックな茜色の夕暮れ。
-    - **夜 (19:00-6:00)**: 深い夜、**ホタル**が飛び交い、カーソルが**ランタン**のように光ります。
+This site is filled with hidden elements to entertain visitors:
 
-2.  **まっくろくろすけカーソル (Soot Sprites)** ⚫
-    - マウスを動かすと、小さな黒い精霊たちがざわざわと逃げていきます。
+1.  **Time-Shift Atmosphere** 🕰️
+    - The site's vibe changes in real-time based on your local time.
+    - **Day (6:00-16:00)**: Bright sunlight and floating dust motes.
+    - **Evening (16:00-19:00)**: Nostalgic sunset orange.
+    - **Night (19:00-6:00)**: Deep night, where **fireflies** dance and your cursor becomes a **lantern**.
 
-3.  **金平糖の魔法 (Konpeito Click)** 🍬
-    - クリックすると、カラフルな金平糖が飛び出します。
+2.  **Soot Sprites** ⚫
+    - Small black spirits (Soot Sprites) scurry away when you move your mouse.
 
-4.  **進捗ねこ (Scroll Cat)** 🐈
-    - ページをスクロールすると、画面上部を猫がトコトコ歩いて進捗を教えてくれます。
+3.  **Konpeito Magic** 🍬
+    - Click anywhere to release a burst of colorful star candies (Konpeito).
 
-5.  **風の通り道 (Windy Leaves)** 🍃
-    - 時折、水彩風の葉っぱが風に乗って舞い落ちます。
+4.  **Scroll Cat** 🐈
+    - A cat walks along the top edge of the screen to indicate your scroll progress.
 
-6.  **ぷるぷる物理 (Jelly Physics)** 🍮
-    - ボタンや画像を触ると、パン生地のように「ぷるん」と弾みます。
+5.  **Windy Leaves** 🍃
+    - Occasionally, watercolor leaves dance across the screen carried by the wind.
 
-7.  **湯気 (Steam)** ♨️
-    - 焼きたてのパンの写真から、ふんわりと湯気が立ち上ります。
+6.  **Jelly Physics** 🍮
+    - Buttons and images react with a "jelly-like" bounce when clicked or hovered.
 
-## 🛠️ 技術スタック (Tech Stack)
+7.  **Steam** ♨️
+    - Gentle steam rises from the photos of freshly baked bread.
 
-フレームワークを使わず、軽量な構成で作られています。
+---
+
+## 🛠️ Tech Stack
+
+Built with a lightweight configuration without heavy frameworks:
 
 - **HTML5**
 - **CSS3** (Tailwind CSS via CDN)
 - **JavaScript** (Vanilla ES6+)
 - **FontAwesome** (Icons)
-- **Google Fonts**
+- **Google Fonts** (Zen Maru Gothic, Kiwi Maru)
 
-## 🚀 使い方 (Usage)
+---
 
-特別なビルド環境は不要です。`index.html` をブラウザで開くだけで動作します。
+## 🚀 Usage
+
+No special build environment is required. Just open `index.html` in your browser.
 
 ```bash
-# クローンする
+# Clone
 git clone https://github.com/your-username/baking-shota-website.git
 
-# フォルダを開く
+# Open Folder
 cd baking-shota-website
 
-# index.html をブラウザで開く
-# (VS Codeなら "Live Server" 拡張機能がおすすめです)
+# Open index.html
+# (Using "Live Server" extension in VS Code is recommended)
 ```
 
-## 📂 ディレクトリ構成
+---
+
+## 📂 Directory Structure
 
 ```
 .
-├── index.html          # メインのソースコード
-├── README.md           # このファイル
-└── materials/          # 画像素材フォルダ
-    ├── icon.png        # プロフィールアイコン
-    ├── myfavorite1-3.jpg # お気に入りセクション画像
-    └── picture1-9.jpg  # ギャラリー画像
+├── index.html          # Main Source Code
+├── README.md           # This File
+└── materials/          # Image Assets
+    ├── icon.png        # Profile Icon
+    ├── myfavorite1-3.jpg 
+    └── picture1-9.jpg  # Gallery Images
 ```
 
-## 📜 ライセンス
+---
+
+## 📜 License
 
 Designed & Developed for Baking Shota.
-
