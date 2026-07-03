@@ -3,7 +3,7 @@
 Welcome to the official website of **Baking Shota** (@baking_shota1009).
 Concept: "A Bakery in the Witch's Forest". We aimed for a Ghibli-esque atmosphere with warm textures, playful gimmicks, and Ghibli-inspired magic.
 
-![Project Banner](./materials/banner_preview.png)
+![Project Banner]
 *(Note: You can replace this path with an actual screenshot if available)*
 
 ---
